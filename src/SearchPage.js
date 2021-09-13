@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { search } from "./BooksAPI";
 import Book from "./Book";
 import PropTypes from "prop-types";
-import BookStatus from "./models/BookStatus";
+import BookShelfStatus from "./models/BookShelfStatus";
 import isEmpty from "lodash/isEmpty";
 
 class SearchPage extends React.Component {
@@ -18,26 +18,37 @@ class SearchPage extends React.Component {
     books: [],
   };
 
-  getCurrentStatus = (argBook) => {
+  componentDidMount() {
+    const savedTitleOrAuthor = localStorage.getItem("titleOrAuthor");
+    if (!isEmpty(savedTitleOrAuthor)) {
+      this.setState(() => ({
+        titleOrAuthor: savedTitleOrAuthor,
+      }));
+      this.updateQuery(savedTitleOrAuthor);
+    }
+  }
+
+  getCurrentShelf = (argBook) => {
     const bookArray = this.props.books.filter((book) => {
       return book.id === argBook.id;
     });
 
     if (isEmpty(bookArray)) {
-      return BookStatus.NONE;
+      return BookShelfStatus.NONE;
     }
 
-    const status = bookArray[0].status;
-    if (isEmpty(status)) {
-      return BookStatus.NONE;
+    const shelf = bookArray[0].shelf;
+    if (isEmpty(shelf)) {
+      return BookShelfStatus.NONE;
     }
-    return status;
+    return shelf;
   };
 
   updateQuery = (titleOrAuthor) => {
     this.setState(() => ({
       titleOrAuthor: titleOrAuthor,
     }));
+    localStorage.setItem("titleOrAuthor", titleOrAuthor);
 
     let booksArray = [];
     if (!isEmpty(titleOrAuthor)) {
@@ -47,36 +58,26 @@ class SearchPage extends React.Component {
             books.forEach((book) => {
               //Only include books with image links
               if (book.imageLinks) {
-                const currentBookStatus = this.getCurrentStatus(book);
-                const newBook = {
-                  width: 128,
-                  height: 192,
-                  backgroundImage: book.imageLinks
-                    ? book.imageLinks.thumbnail
-                    : "",
-                  title: book.title,
-                  authors: book.authors,
-                  status: currentBookStatus,
-                  id: book.id,
-                };
-                booksArray.push(newBook);
+                const currentBookShelf = this.getCurrentShelf(book);
+                book.shelf = currentBookShelf;
+                booksArray.push(book);
               }
             });
-
-            this.setState(() => ({
-              books: booksArray,
-            }));
+          } else {
+            booksArray = [];
           }
-        })
-        .catch(() => {
-          booksArray = [];
           this.setState(() => ({
             books: booksArray,
+          }));
+        })
+        .catch(() => {
+          this.setState(() => ({
+            books: [],
           }));
         });
     } else {
       this.setState(() => ({
-        books: booksArray,
+        books: [],
       }));
     }
   };

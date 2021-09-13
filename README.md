@@ -1,8 +1,11 @@
 # MyReads Project
 
-This project allows a user to maintain a list for their suggested readings.
-There are 3 shelf sections, Currently Reading, Want to Read and Read
-The user can move books between the various shelf sections.
+This project allows a user to maintain a list for their readings.
+
+There are 3 shelf sections, Currently Reading, Want to Read and Read.
+
+The user can move books between the various shelf sections using the UI.
+
 The serarch functionality allows the user to search for books and add them to a particiular shelf
 
 
@@ -16,8 +19,11 @@ To get started developing right away:
 
 ## Technology Used
 This project is purely frontend and we use React for development
+
 React router is used for navigation
+
 Prop-types is used for prop validations
+
 Lodash is used for code validations
 
 ## Contributing

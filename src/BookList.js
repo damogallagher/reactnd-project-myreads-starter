@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Link } from "react-router-dom";
 import BookShelf from "./BookShelf";
-import BookStatus from "./models/BookStatus";
+import BookShelfStatus from "./models/BookShelfStatus";
 import PropTypes from "prop-types";
 
 class BookList extends React.Component {
@@ -19,11 +19,11 @@ class BookList extends React.Component {
     const wantToRead = [];
     const read = [];
     this.props.books.forEach((book) => {
-      if (book.status === BookStatus.CURRENTLY_READING) {
+      if (book.shelf === BookShelfStatus.CURRENTLY_READING) {
         currentlyReading.push(book);
-      } else if (book.status === BookStatus.WANT_TO_READ) {
+      } else if (book.shelf === BookShelfStatus.WANT_TO_READ) {
         wantToRead.push(book);
-      } else if (book.status === BookStatus.READ) {
+      } else if (book.shelf === BookShelfStatus.READ) {
         read.push(book);
       }
     });

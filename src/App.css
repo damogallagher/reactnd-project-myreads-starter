@@ -47,6 +47,11 @@ body, .app {
   text-align: center;
 }
 
+.bookshelf-no-books {
+  text-align: center;
+  color: red;
+}
+
 .open-search {
   position: fixed;
   right: 25px;

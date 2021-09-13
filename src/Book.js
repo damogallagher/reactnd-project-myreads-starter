@@ -8,7 +8,7 @@ class Book extends React.Component {
     bookSelected: PropTypes.func.isRequired,
   };
 
-  changeBookStatus = (e) => {
+  changeBookShelf = (e) => {
     e.preventDefault();
     const newStatus = e.target.value;
     this.props.bookSelected(newStatus, this.props.book);
@@ -17,20 +17,21 @@ class Book extends React.Component {
   render() {
     // destructure the required props
     const { book } = this.props;
-    
+
     return (
       <div className="book">
         <div className="book-top">
           <div
             className="book-cover"
             style={{
-              width: book.width,
-              height: book.height,
-              backgroundImage: `url("${book.backgroundImage}")`,
+              width: 128,
+              height: 193,
+              backgroundImage: `url(${book.imageLinks.thumbnail})`,
             }}
           />
+
           <div className="book-shelf-changer">
-            <select defaultValue={book.status} onChange={this.changeBookStatus}>
+            <select defaultValue={book.shelf} onChange={this.changeBookShelf}>
               <option value="move" disabled>
                 Move to...
               </option>
