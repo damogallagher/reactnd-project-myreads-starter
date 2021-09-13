@@ -28,6 +28,12 @@ class BookList extends React.Component {
       }
     });
 
+    const shelves = [
+      { title: "Currently Reading", data: currentlyReading },
+      { title: "Want to Read", data: wantToRead },
+      { title: "Read", data: read },
+    ];
+
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -38,21 +44,14 @@ class BookList extends React.Component {
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelf
-              shelfTitle="Currently Reading"
-              books={currentlyReading}
-              bookSelected={bookSelected}
-            />
-            <BookShelf
-              shelfTitle="Want to Read"
-              books={wantToRead}
-              bookSelected={bookSelected}
-            />
-            <BookShelf
-              shelfTitle="Read"
-              books={read}
-              bookSelected={bookSelected}
-            />
+            {shelves.map((shelf) => (
+              <BookShelf
+                key={shelf.title}
+                shelfTitle={shelf.title}
+                books={shelf.data}
+                bookSelected={bookSelected}
+              />
+            ))}
           </div>
         </div>
         <div className="open-search">
